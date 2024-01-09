@@ -1,16 +1,29 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404              # Atenção na importação
 from django.http import HttpResponse
 from .models import Aluno, Professor
+from .forms import AlunoForm
+from django.urls import reverse_lazy, reverse
+from django.views.generic import CreateView, UpdateView
 
 # Create your views here.
 
 def alunoView(request):
     alunos_list =Aluno.objects.all()
-    return render(request, 'main/alunos.html', {'alunos_list': alunos_list})
+    return render(request, 'main/alunos.html', {'alunos_list':alunos_list})
+
+def alunoIDview(request, id):
+    aluno = get_object_or_404(Aluno, pk=id)
+    print(aluno)
+    return render(request, 'main/alunoID.html', {'aluno':aluno})
 
 def professorView(request):
     professor_list = Professor.objects.all()
-    return render(request, 'main/professor.html', {'professor_list': professor_list})
+    return render(request, 'main/professor.html', {'professor_list':professor_list})
+
+def professorIDview(request, id):
+    professor = get_object_or_404(Professor, pk=id)
+    print(professor)
+    return render(request, 'main/professorID.html', {'professor':professor})
 
 def contato_view(request):
     if request.method == 'POST':
@@ -22,3 +35,36 @@ def contato_view(request):
         print('Message', message)
 
     return render(request, 'main/contato.html')
+
+
+class AlunoCreateView(CreateView):
+    model = Aluno
+    form_class = AlunoForm
+    success_url = reverse_lazy('aluno-lista')       # url para redirecionar após a criação do objeto
+    template_name = 'main/aluno_form.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    
+# outra forma seria por função em vez de classe
+
+def aluno_create_view(request):
+    if request.method == 'POST':
+        form = AlunoForm(request.POST)
+        if form.is_valid():
+            aluno = form.save(commit=False)
+            aluno.user = request.user
+            aluno.save()
+            return redirect(reverse('aluno-lista'))
+    else:
+        form = AlunoForm()
+
+    return render(request, 'aluno_form.html', {'form':form})
+
+
+class AlunoUpdateView(UpdateView):
+    model = Aluno
+    form_class = AlunoForm
+    template_name = 'main/aluno_form.html'
+    success_url = reverse_lazy('aluno-lista')
