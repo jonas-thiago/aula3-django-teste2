@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404              # Atenção na importação
 from django.http import HttpResponse
 from .models import Aluno, Professor
-from .forms import AlunoForm
+from .forms import AlunoForm, ProfessorForm
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView
 
@@ -13,7 +13,6 @@ def alunoView(request):
 
 def alunoIDview(request, id):
     aluno = get_object_or_404(Aluno, pk=id)
-    print(aluno)
     return render(request, 'main/alunoID.html', {'aluno':aluno})
 
 def professorView(request):
@@ -22,7 +21,6 @@ def professorView(request):
 
 def professorIDview(request, id):
     professor = get_object_or_404(Professor, pk=id)
-    print(professor)
     return render(request, 'main/professorID.html', {'professor':professor})
 
 def contato_view(request):
@@ -35,6 +33,10 @@ def contato_view(request):
         print('Message', message)
 
     return render(request, 'main/contato.html')
+
+'''def delete_aluno(request):
+    aluno_delete = Aluno.objects.filter(id=id)
+    return render(request, 'main/alunos.html', {'alunos_list':alunos_list})'''
 
 
 class AlunoCreateView(CreateView):
@@ -68,3 +70,20 @@ class AlunoUpdateView(UpdateView):
     form_class = AlunoForm
     template_name = 'main/aluno_form.html'
     success_url = reverse_lazy('aluno-lista')
+
+class ProfessorCreateView(CreateView):
+    model = Professor
+    form_class = ProfessorForm
+    success_url = reverse_lazy('professor-lista')       # url para redirecionar após a criação do objeto
+    template_name = 'main/professor_form.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    
+
+class ProfessorUpdateView(UpdateView):
+    model = Professor
+    form_class = ProfessorForm
+    template_name = 'main/professor_form.html'
+    success_url = reverse_lazy('professor-lista')
