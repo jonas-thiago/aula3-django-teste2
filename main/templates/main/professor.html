@@ -9,9 +9,10 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Aluno</th>
+                    <th scope="col">Professor</th>
                     <th scope="col">Email</th>
                     <th scope="col">Telefone</th>
+                    <th scope="col">Disciplina</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,8 +21,9 @@
                         <td><a href="/professorID/{{professor.id}}">{{ professor.nome_professor }}</td>
                         <td>{{ professor.email_professor }}</td>
                         <td>{{ professor.telefone_professor }}</td>
+                        <td>{{ professor.disciplina }}</td>
                         <td><a href="/professor/{{professor.id}}/update/"><span><i class="fas fa-edit"></i></span></td>
-                        <td><a href="/delete/{{professor.id}}"><span><i class="fas fa-trash"></i></span></td>
+                        <td><a href="/delete_professor/{{professor.id}}"><span><i class="fas fa-trash"></i></span></td>
                     </tr>
             {% empty %}
                 <tr>

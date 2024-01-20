@@ -5,7 +5,7 @@
     <div class="container">
         <h1>Adicionar Professor</h1>
         <form method="POST">
-            {% csrf_token %}
+            #{% csrf_token %}
             {{form.as_p}}
             <button type="submit" class="btn btn-primary">Salvar</button>
             <a href="{% url 'professor-lista' %}" class="btn btn-secondary">cancelar</a>

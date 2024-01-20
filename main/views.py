@@ -34,9 +34,19 @@ def contato_view(request):
 
     return render(request, 'main/contato.html')
 
-'''def delete_aluno(request):
-    aluno_delete = Aluno.objects.filter(id=id)
-    return render(request, 'main/alunos.html', {'alunos_list':alunos_list})'''
+
+def delete_aluno(request, id):
+    deletar_aluno = Aluno.objects.get(id=id)
+    deletar_aluno.delete()
+
+    return render(request, 'main/alunos.html')
+
+
+def delete_professor(request, id):
+    deletar_professor = Professor.objects.get(id=id)
+    deletar_professor.delete()
+
+    return redirect('/professor')
 
 
 class AlunoCreateView(CreateView):
@@ -70,6 +80,7 @@ class AlunoUpdateView(UpdateView):
     form_class = AlunoForm
     template_name = 'main/aluno_form.html'
     success_url = reverse_lazy('aluno-lista')
+    
 
 class ProfessorCreateView(CreateView):
     model = Professor
@@ -87,3 +98,5 @@ class ProfessorUpdateView(UpdateView):
     form_class = ProfessorForm
     template_name = 'main/professor_form.html'
     success_url = reverse_lazy('professor-lista')
+
+

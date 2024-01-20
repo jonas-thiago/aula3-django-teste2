@@ -13,5 +13,7 @@ urlpatterns = [
     path('aluno/<int:pk>/update/', AlunoUpdateView.as_view(), name='aluno-update'),
     path('professor/create', ProfessorCreateView.as_view(), name='professor-create'),
     path('professor/<int:pk>/update/', ProfessorUpdateView.as_view(), name='professor-update'),
+    path('delete_aluno/<int:id>', views.delete_aluno, name='delete_aluno'),
+    path('delete_professor/<int:id>', views.delete_professor, name='delete_professor'),
     
 ]

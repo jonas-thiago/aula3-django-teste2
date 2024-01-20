@@ -22,11 +22,7 @@ class AlunoForm(forms.ModelForm):
 
 
 class ProfessorForm(forms.ModelForm):
-    # Mascara do telefone(funciona com JS.)
-    telefone = forms.CharField(widget=forms.TextInput(attrs={'minlength':'15', 'maxlength':'15','onkeyup':'handlePhone(event)'}))
-    # Calendário no input
-    data_nascimento = forms.DateField(widget=forms.TextInput(attrs={'type':'date'}))
-
+    
     class Meta:
         model = Professor
         fields = ['nome_professor','telefone_professor','email_professor','disciplina']
