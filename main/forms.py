@@ -22,6 +22,8 @@ class AlunoForm(forms.ModelForm):
 
 
 class ProfessorForm(forms.ModelForm):
+
+    telefone_professor = forms.CharField(widget=forms.TextInput(attrs={'minlength':'15', 'maxlength':'15','onkeyup':'handlePhone(event)'}))
     
     class Meta:
         model = Professor

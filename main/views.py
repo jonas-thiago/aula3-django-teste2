@@ -48,6 +48,9 @@ def delete_professor(request, id):
 
     return redirect('/professor')
 
+def sobre(request):
+    return render(request, 'main/sobre.html')
+
 
 class AlunoCreateView(CreateView):
     model = Aluno
